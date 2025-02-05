@@ -1,11 +1,8 @@
 {
   "name": "@onchainsupply/identifiers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "files": [
     "dist/**/*",
     "contracts/**/*.sol"
@@ -13,7 +10,8 @@
   "scripts": {
     "build": "hardhat compile && typechain --target ethers-v6 --out-dir dist/types",
     "prepare": "npm run build",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "deploy:lucid": "npx hardhat ignition deploy ./ignition/modules/Lucid.js --network"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

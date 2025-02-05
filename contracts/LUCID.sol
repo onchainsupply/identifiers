@@ -32,15 +32,31 @@ contract LUCID is Ownable2Step {
         SocialProfile[] socials;
     }
 
+    mapping(address => bool) public registrars;
     mapping(uint256 => Identity) public identities;
     mapping(uint256 => uint256) public identityGraph;
     mapping(bytes32 => uint256) public socialToIdentity;
     mapping(address => uint256) public walletToIdentity;
 
-    constructor() Ownable(msg.sender) {}
+    constructor() Ownable(msg.sender) {
+        registrars[msg.sender] = true;
+    }
+
+    modifier onlyRegistrar() {
+        require(registrars[msg.sender], "Unauthorized");
+        _;
+    }
+
+    function updateRegistrar(
+        address addr,
+        bool isRegistrar
+    ) external onlyOwner {
+        require(registrars[addr] != isRegistrar, "");
+        registrars[addr] = isRegistrar;
+    }
 
     // Main registration
-    function register(bytes calldata data) external {
+    function register(bytes calldata data) external onlyRegistrar {
         (
             string memory provider,
             string memory uid,
@@ -70,7 +86,7 @@ contract LUCID is Ownable2Step {
         emit IdentityCreated(newId, provider, uid, address(0));
     }
 
-    function registerAddress(bytes calldata data) external {
+    function registerAddress(bytes calldata data) external onlyRegistrar {
         address wallet = abi.decode(data, (address));
         require(walletToIdentity[wallet] == 0, "Wallet exists");
 
@@ -93,7 +109,7 @@ contract LUCID is Ownable2Step {
     }
 
     // Identity linking
-    function link(uint256[] calldata ids) external {
+    function link(uint256[] calldata ids) external onlyRegistrar {
         require(ids.length >= 2, "Need at least 2 IDs");
 
         for (uint i = 0; i < ids.length; i++) {

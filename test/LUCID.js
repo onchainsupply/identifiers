@@ -22,7 +22,7 @@ describe("LUCID", function () {
         ["twitter", "user123", "Alice", "image.jpg"]
       );
 
-      await expect(contract.register(socialData))
+      await expect(contract.connect(owner).register(socialData))
         .to.emit(contract, "IdentityCreated")
         .withArgs(1, "twitter", "user123", ethers.ZeroAddress);
 
