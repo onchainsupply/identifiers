@@ -13,6 +13,14 @@ module.exports = {
       },
     },
   },
+  paths: {
+    sources: "./contracts",
+    artifacts: "./dist/artifacts",
+  },
+  typechain: {
+    outDir: "dist/types",
+    target: "ethers-v6",
+  },
   networks: {
     etherlinkMainnet: {
       url: "https://node.mainnet.etherlink.com",

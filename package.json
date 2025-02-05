@@ -1,5 +1,17 @@
 {
-  "name": "hardhat-project",
+  "name": "@onchainsupply/identifiers",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "contracts/**/*.sol"
+  ],
+  "scripts": {
+    "build": "hardhat compile && typechain --target ethers-v6 --out-dir dist/types",
+    "prepare": "npm run build",
+    "prepack": "npm run build"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.18"
